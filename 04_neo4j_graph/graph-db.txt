@@ -1,0 +1,166 @@
+// creating nodes
+
+CREATE (:User {name: 'Jonh'});
+CREATE (:User {name: 'Mary'});
+CREATE (:User {name: 'Adrian'});
+CREATE (:User {name: 'Claire'});
+CREATE (:User {name: 'Holly'});
+
+CREATE (:Photo {filename: 'file_name1'});
+CREATE (:Photo {filename: 'file_name2'});
+CREATE (:Photo {filename: 'file_name3'});
+CREATE (:Photo {filename: 'file_name4'});
+CREATE (:Photo {filename: 'file_name5'});
+CREATE (:Photo {filename: 'file_name6'});
+CREATE (:Photo {filename: 'file_name7'});
+CREATE (:Photo {filename: 'file_name8'});
+
+
+// creating relationships
+
+
+// posted
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name1'})
+CREATE (j)-[:POSTED]->(p);
+
+MATCH (c:User {name: 'Claire'}), (p:Photo {filename: 'file_name2'})
+CREATE (c)-[:POSTED]->(p);
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name3'})
+CREATE (m)-[:POSTED]->(p);
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name4'})
+CREATE (j)-[:POSTED]->(p);
+
+MATCH (a:User {name: 'Adrian'}), (p:Photo {filename: 'file_name5'})
+CREATE (a)-[:POSTED]->(p);
+
+MATCH (c:User {name: 'Claire'}), (p:Photo {filename: 'file_name6'})
+CREATE (c)-[:POSTED]->(p);
+
+MATCH (c:User {name: 'Claire'}), (p:Photo {filename: 'file_name7'})
+CREATE (c)-[:POSTED]->(p);
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name8'})
+CREATE (m)-[:POSTED]->(p);
+
+
+// liked
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name1'})
+CREATE (m)-[:LIKED]->(p);
+
+MATCH (a:User {name: 'Adrian'}), (p:Photo {filename: 'file_name1'})
+CREATE (a)-[:LIKED]->(p);
+
+MATCH (h:User {name: 'Holly'}), (p:Photo {filename: 'file_name1'})
+CREATE (h)-[:LIKED]->(p);
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name2'})
+CREATE (j)-[:LIKED]->(p);
+
+MATCH (c:User {name: 'Claire'}), (p:Photo {filename: 'file_name3'})
+CREATE (c)-[:LIKED]->(p);
+
+MATCH (h:User {name: 'Holly'}), (p:Photo {filename: 'file_name3'})
+CREATE (h)-[:LIKED]->(p);
+
+MATCH (h:User {name: 'Holly'}), (p:Photo {filename: 'file_name4'})
+CREATE (h)-[:LIKED]->(p);
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name6'})
+CREATE (m)-[:LIKED]->(p);
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name7'})
+CREATE (j)-[:LIKED]->(p);
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name7'})
+CREATE (m)-[:LIKED]->(p);
+
+MATCH (a:User {name: 'Adrian'}), (p:Photo {filename: 'file_name7'})
+CREATE (a)-[:LIKED]->(p);
+
+MATCH (u:User {name: 'Holly'}), (p:Photo {filename: 'file_name7'})
+CREATE (u)-[:LIKED]->(p);
+
+MATCH (c:User {name: 'Claire'}), (p:Photo {filename: 'file_name8'})
+CREATE (c)-[:LIKED]->(p);
+
+MATCH (a:User {name: 'Adrian'}), (p:Photo {filename: 'file_name8'})
+CREATE (a)-[:LIKED]->(p);
+
+
+// comments
+
+MATCH (a:User {name: 'Adrian'}), (p:Photo {filename: 'file_name2'})
+CREATE (a)-[:COMMENTED {text: 'Good'}]->(p);
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name3'})
+CREATE (j)-[:COMMENTED {text: 'Excellent'}]->(p);
+
+MATCH (h:User {name: 'Holly'}), (p:Photo {filename: 'file_name3'})
+CREATE (h)-[:COMMENTED {text: 'Not bad'}]->(p);
+
+MATCH (j:User {name: 'Jonh'}), (p:Photo {filename: 'file_name8'})
+CREATE (j)-[:COMMENTED {text: 'Ok'}]->(p);
+
+MATCH (m:User {name: 'Mary'}), (p:Photo {filename: 'file_name8'})
+CREATE (m)-[:COMMENTED {text: 'Cool'}]->(p);
+
+
+// follows
+
+MATCH (m:User {name: 'Mary'}), (j:User {name: 'Jonh'})
+CREATE (m)-[:FOLLOWS]->(j);
+
+MATCH (a:User {name: 'Adrian'}), (j:User {name: 'Jonh'})
+CREATE (a)-[:FOLLOWS]->(j);
+
+MATCH (c:User {name: 'Claire'}), (j:User {name: 'Jonh'})
+CREATE (c)-[:FOLLOWS]->(j);
+
+MATCH (j:User {name: 'Jonh'}), (m:User {name: 'Mary'})
+CREATE (j)-[:FOLLOWS]->(m);
+
+MATCH (a:User {name: 'Adrian'}), (m:User {name: 'Mary'})
+CREATE (a)-[:FOLLOWS]->(m);
+
+MATCH (m:User {name: 'Mary'}), (a:User {name: 'Adrian'})
+CREATE (m)-[:FOLLOWS]->(a);
+
+MATCH (c:User {name: 'Claire'}), (a:User {name: 'Adrian'})
+CREATE (c)-[:FOLLOWS]->(a);
+
+MATCH (j:User {name: 'Jonh'}), (c:User {name: 'Claire'})
+CREATE (j)-[:FOLLOWS]->(c);
+
+MATCH (h:User {name: 'Holly'}), (a:User {name: 'Adrian'})
+CREATE (h)-[:FOLLOWS]->(a);
+
+
+// queries
+
+// 1. Write a command which changes the text of the comment
+//    from Holly under the photo named 'file_name3' to 'Very Good'.
+MATCH (h:User {name: 'Holly'})-[c:COMMENTED]->(p:Photo {filename: 'file_name3'})
+SET c.text = 'Very Good';
+
+// 2. Write a command that will do Jonh has unfollowed all the users he used to follow.
+MATCH (j:User {name: 'Jonh'})-[f:FOLLOWS]->()
+DELETE f;
+
+// 3. Write a command that will display all photos of the users whom Mary follows to.
+MATCH (:User {name: 'Mary'})-[:FOLLOWS]->(u:User)-[:POSTED]->(p:Photo)
+RETURN p.filename;
+
+// 4. Write a command that returns the count of likes placed on Claire's photos.
+MATCH (:User {name: 'Claire'})-[:POSTED]->(p:Photo)<-[:LIKED]-()
+RETURN count(*) AS likes_on_claire_photos;
+
+// 5. If Claire follows Jonh and Adrian, and Holly also follows Adrian,
+//    we can assume that Holly might be interested in following Jonh. 
+//    Write a command that will return the users we could recommend Holly to follow.
+MATCH (h:User {name: 'Holly'})-[:FOLLOWS]->(common:User)<-[:FOLLOWS]-(candidate:User)
+WHERE NOT (h)-[:FOLLOWS]->(candidate) AND h <> candidate
+RETURN DISTINCT candidate.name AS recommended_follow;
